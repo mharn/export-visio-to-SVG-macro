@@ -3,7 +3,7 @@ Visio macro to export all foreground pages for all open visio documents to SVG
 
 Adapted from http://www.visguy.com/2006/09/18/export-all-pages-in-document/
 
-Save this in a blank stencil file with macros enabled (.vssm).
+Save this in a blank stencil file with macros enabled (.vssm) (using a stencil file because it's not a document file and thus wont be exported).
 
 Open all the vsd and vsdx files you want to convert along with the stencil file.
 
