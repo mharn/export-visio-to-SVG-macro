@@ -1,0 +1,51 @@
+Public Sub ExportAllPages_ToSVG()
+    ' Adapted from http://www.visguy.com/2006/09/18/export-all-pages-in-document/
+    ' outputs all foreground pages for all Visio documents (e.g. not stencils) as SVG
+ 
+    Dim formatExtension As String
+    formatExtension = ".svg" '...or .bmp, .jpg, .png, .tif
+ 
+    '// Init folder, doc and counter:
+    Dim filename As String, folder As String
+    folder = ThisDocument.Path
+ 
+    Dim doc As Visio.Document
+    'Set doc = Visio.ActiveDocument
+ 
+    Dim i As Integer
+    
+    Dim vsoDocuments As Visio.Documents
+    Set vsoDocuments = Application.Documents
+    
+    For Each doc In vsoDocuments
+        i = 1
+        If doc.Type = visTypeDrawing Then
+           Debug.Print doc.Type
+           
+           '// Loop through pages:
+           For Each pg In doc.Pages
+                Debug.Print "pg.Type: " & pg.Type
+                If pg.Type = visTypeForeground Then
+                   '// Setup the filename:
+                   filename = doc.Name & "fig" & Format(i, "000") & " " & pg.Name
+           
+                   '// Append '(bkgnd)' to background pages:
+                   'If (pg.Background) Then filename = filename & " (bkgnd)"
+        
+                   '// Add the extension:
+                   filename = filename & formatExtension
+        
+                   '// Save it:
+                   Call pg.Export(folder & filename)
+               End If
+    
+               i = i + 1
+    
+           Next
+        End If
+    Next
+ 
+Cleanup:
+    Debug.Print "done"
+    Set doc = Nothing
+End Sub
